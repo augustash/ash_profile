@@ -1,0 +1,3 @@
+<?php
+
+include_once('aai_custom_search.features.inc');

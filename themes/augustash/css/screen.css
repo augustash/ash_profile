@@ -1,0 +1,107 @@
+/* Copyright (c) 2010 August Ash Inc. (http://www.augustash.com)
+   Screen Drupal Style Sheet
+   Version: $Id$ CM BH JT SL JB
+--------------------------------------------------------------- */
+
+/* 	=============================
+	Colors:
+	
+	=============================	*/
+
+body {
+	background:#ddd;
+	text-align:left;
+	color:#222;
+	font:normal 13px/17px Helvetica, Arial, sans-serif;
+}
+
+p, table {margin:0 0 1em;}
+img {border:0;}
+.access, hr {display:none;}
+.clearer {clear:both; height:0%; line-height:0%; font-size:0%;}
+.required, .error {font-weight:bold; color:#C30000;}
+a:link, a:visited {color:#F09; font-weight:normal; text-decoration:underline; outline:none;}
+a:hover, a:active {text-decoration:none; outline:none;}
+
+/* TYPE
+----------------------------------------------- */
+strong, dfn {font-weight:bold;}
+em, dfn {font-style:italic;}
+sup, sub {line-height:0;}
+abbr, acronym {border-bottom:1px dotted #666;}
+pre, code {white-space:pre; font-family:'andale mono','lucida console',monospace; line-height:1.5;}
+
+/* HEADINGS
+----------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {font-weight:bold; margin:0;}
+h1 {font-size:21px; line-height:24px;}
+h2 {font-size:19px; line-height:21px;}
+h3 {font-size:17px; line-height:18px;}
+h4 {font-size:15px; line-height:16px;}
+h5 {font-size:13px; line-height:15px}
+h6 {font-size:11px; line-height:13px;}
+
+/* LISTS
+----------------------------------------------- */
+ul li {list-style-type:disc; padding:0 0 0.3em;}
+ol li {list-style-type:decimal; padding:0 0 0.3em;}
+ul, ol {list-style-position:outside; margin:0 0 1em; padding:0 0 0 2em;}
+ul ul, ol ol, ul ol, ol ul{list-style-type:square; list-style-position:outside;}
+ol, ol ol, ul ol{list-style-type:decimal;}
+dl {margin:0 0 1em;}
+dl dt {font-weight:bold;}
+dl dd {margin:0 0 0 1em;}
+
+/* BASE LAYOUT
+----------------------------------------------- */
+div#wrap {position:relative; width:960px; margin:0 auto; text-align:left;}
+div#header {position:relative; width:960px; height:150px; background:#999;}
+div#cwrap {width:960px; background:#fff;}
+div#main {float:right; display:inline; width:640px;}
+div#sidebar-left {float:left; display:inline; width:300px; background:#eee;}
+div#sidebar-right {float:right; display:inline; width:300px; background:#eee;}
+div#xtra {float:left; display:inline; width:300px;}
+div#footer {clear:both; text-align:left; background:#999;}
+
+/* HEADER
+----------------------------------------------- */
+div#header h2 {width:150px;}
+div#header h2 a:link, div#header h2 a:visited {
+	background:#F09;
+	display:block;
+	position:relative;
+	width:150px;
+	height:0px;
+	padding-top:100px;
+	overflow:hidden;
+	font-size:0%;
+	line-height:0%;
+	border:0;
+	text-decoration:none;
+}
+div#header h2 a:hover, div#header h2 a:active {border:0;text-decoration:none;}
+
+/* Navigation
+---------------------- */
+ul#nav {position:relative;}
+ul#nav li {display:inline; border-right:1px solid #000;}
+ul#nav li.last {border: none;}
+ul#nav li a {padding:0 5px;}
+
+/* MAIN
+----------------------------------------------- */
+#main h1 {}
+#main h2 {}
+#main h3 {}
+#main h4 {}
+#main h5 {}
+#main h6 {}
+
+#main ol, #main ul {}
+#main ol li, #main ul li {}
+
+/* FOOTER
+----------------------------------------------- */
+div#footer p {font-size:11px; color:#666;}
+div#footer p a {color:#333; text-decoration:underline;}
+div#footer p a:hover {text-decoration:none;}

@@ -1,0 +1,33 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Guide to using this module: do not use it for things that belong in other
+ * modules. If you are finding yourself writing two or more functions in here
+ * that are related, you should probably be putting them in their own module.
+ * This module is for things like form and menu alters, for which it is kind
+ * of overkill to create a seperate module.
+ *
+ * In short, please use wisely.
+ */
+
+/**
+ * Implementation of hook_form_alter()
+ */
+function aai_form_alter(&$form, &$form_state, $form_id) {
+
+  switch ($form['#id']) {
+    case 'views-exposed-form-search-block-1':
+      // Uncomment the following line to change the button text on the search
+      // block. This only works if you are using the AAI custom search module.
+      //$form['submit']['#value'] = 'Go';
+      break;
+    case 'views-exposed-form-search-page-1':
+      // And this one is for the search page.
+      //$form['submit']['#value'] = 'Go';
+      break;
+  }
+  
+}
+
