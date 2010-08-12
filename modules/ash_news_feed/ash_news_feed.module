@@ -1,0 +1,235 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * This is the file description for Client Feed module.
+ *
+ * In this more verbose, multi-line description, you can specify what this
+ * file does exactly. Make sure to wrap your documentation in column 78 so
+ * that the file can be displayed nicely in default-sized consoles.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function ash_news_feed_menu() {
+  $items = array();
+
+  $items['admin/reports/news'] = array(
+    'title' => t('News from August Ash'),
+    'description' => t('The latest news from August Ash.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('_ash_news_page'),
+    'access arguments' => array('access ash news'),
+  );
+  
+  $items['admin/reports/news/%'] = array(
+    'title' => t('View'),
+    'page callback' => 'ash_news_page_view',
+    'page arguments' => array(3),
+    'access arguments' => array('access ash news'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function ash_news_feed_init() {
+  drupal_add_css(drupal_get_path('module', 'ash_news_feed') . '/style.css');
+  $count = _ash_news_get_unread_count('count');
+  if (!empty($count) && user_access('access ash news')) {
+    $text = _ash_news_get_unread_count('text');
+    drupal_set_message(t('You have @text from August Ash! Click !link to view.', array('@text' => $text, '!link' => l('here', 'admin/reports/news'))), 'warning');
+  }
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function ash_news_feed_perm() {
+  return array('access ash news');
+}
+
+
+/**
+ * Implementation of hook_cron().
+ */
+function ash_news_feed_cron() {
+  
+  $items = array();
+  $query = db_query('SELECT guid FROM {ash_news}');
+  while ($row = db_fetch_object($query)) {
+    $items[] = $row->guid;
+  }
+  module_load_include('inc', 'ash_news_feed', 'simplepie');
+  
+  $feed = new Simplepie();
+  $feed->set_feed_url('http://augustash.com/blog/feed');
+  $feed->set_cache_location(file_directory_path() . '/simplepie_cache');
+  
+  // Initializing the feed. This reads, parses, etc.
+  $success = $feed->init();
+  $feed->handle_content_type();
+  
+  if ($success) {
+    foreach ($feed->get_items() as $item) {
+      if (!in_array($item->get_permalink(), $items)) {
+        $record->title = $item->get_title();
+        $record->guid = $item->get_permalink();
+        $record->timestamp = strtotime($item->get_date('j M Y, g:i a'));
+        $record->message = $item->get_content();
+        drupal_write_record('ash_news', $record);
+      }
+    }
+  }
+
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function ash_news_feed_theme() {
+  return array(
+    'ash_news_format' => array(
+      'arguments' => array('form' => NULL),
+    ),
+    'ash_news_format_each' => array(
+      'arguments' => array('item' => NULL),
+    ),
+  );
+}
+
+/**
+ * Builds the news page. See node module for more info.
+ */
+function _ash_news_page() {
+  
+  $query = db_query('SELECT * FROM {ash_news} ORDER BY timestamp DESC');
+  
+  $header = array('Read', 'Title', 'Message', 'Date');
+  $form = array();
+  $options = array();
+  $form['operations'] = array(
+    '#type' => 'fieldset',
+  );
+  $form['operations']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Mark as Read'),
+  );
+  while ($row = db_fetch_object($query)) {
+    $form['title'][$row->id] = array('#value' => l($row->title, 'admin/reports/news/' . $row->id));
+    $form['message'][$row->id] = array('#value' => $row->message);
+    $form['timestamp'][$row->id] = array('#value' => date('F j, Y', $row->timestamp));
+    $form['isread'][$row->id] = array('#value' => $row->isread);
+    $options[$row->id] = '';
+  }
+  
+  $form['items'] = array(
+    '#type' => 'checkboxes',
+    '#options' => $options,
+  );
+  $form['#theme'] = 'ash_news_format';
+  return $form;
+}
+
+/**
+ * Make sure there are selected items.
+ */
+function _ash_news_page_validate($form, &$form_state) {
+  $items = array_filter($form_state['values']['items']);
+  if (count($items) == 0) {
+    form_set_error('', t('No items selected.'));
+  }
+}
+
+/**
+ * Submit handler for our form.
+ */
+function _ash_news_page_submit($form, &$form_state) {
+  $items = implode(',', $form_state['values']['items']);
+  db_query('UPDATE {ash_news} SET isread = 1 WHERE id IN (%s)', $items);
+  drupal_set_message(t('%number items marked as read.', array('%number' => count($form_state['values']['items']))), 'status');
+}
+
+/**
+ * Theme function for our news page.
+ */
+function theme_ash_news_format($form) {
+  // If there are rows in this form, then $form['title'] contains a list of
+  // the title form elements.
+  $has_posts = isset($form['title']) && is_array($form['title']);
+  $select_header = $has_posts ? theme('table_select_header_cell') : '';
+  $header = array($select_header, 'Title', 'Message', 'Date');
+  $output = '';
+  $output .= drupal_render($form['operations']);
+  if ($has_posts) {
+    foreach (element_children($form['title']) as $key) {
+      $row = array();
+      $row['data'][] = drupal_render($form['items'][$key]);
+      $row['data'][] = drupal_render($form['title'][$key]);
+      $row['data'][] = drupal_render($form['message'][$key]);
+      $row['data'][] = drupal_render($form['timestamp'][$key]);
+      $row['class'] = ($form['isread'][$key]['#value'] == 1) ? 'read' : 'unread';
+      // Thow the read column to /dev/null
+      drupal_render($form['isread']);
+      $rows[] = $row;
+    }
+
+  }
+  else {
+    $rows[] = array(array('data' => t('No posts available.'), 'colspan' => '5'));
+  }
+  
+  $output .= theme('table', $header, $rows);
+  $output .= drupal_render($form);
+
+  return $output;
+}
+
+/**
+ * Handle the title of each page.
+ */
+function ash_news_page_view($id) {
+  $query = db_query('SELECT * FROM {ash_news} WHERE id = %d', $id);
+  while ($row = db_fetch_object($query)) {
+    $item = new StdClass();
+    foreach ($row as $k => $v) {
+      $item->$k = $v;
+    }
+  }
+  if ($item->isread == 0) {
+    $item->isread = 1;
+    db_query('UPDATE {ash_news} SET isread = 1 WHERE id = %d', $id);
+  }
+  
+  drupal_set_title($item->title);
+  return theme('ash_news_format_each', $item);
+}
+
+/**
+ * Theme function for each page.
+ */
+function theme_ash_news_format_each($item) {
+  $output = '';
+  $output .= '<div class="form-item form-item-labeled">';
+  $output .= '<label for="ash-news-body">Message sent ' . date('F j, Y', $item->timestamp) . '</label>';
+  $output .= '<div id="ash-news-body">' . $item->message . '</div>';
+  $output .= '</div>';
+  return $output;
+}
+
+/**
+ * Helper function to get the total unread count.
+ */
+function _ash_news_get_unread_count($op) {
+  $count = db_result(db_query('SELECT COUNT(*) FROM {ash_news} WHERE isread = 0'));
+  switch ($op) {
+    case 'text':
+      return format_plural($count, '1 unread notification', '@count unread notifications');
+    case 'count':
+      return $count;
+  }
+}

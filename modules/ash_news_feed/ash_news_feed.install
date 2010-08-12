@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * Implementation of hook_schema().
+ */
+function ash_news_feed_schema() {
+  
+  $schema['ash_news'] = array(
+    'description' => 'Stores feed items imported from AAI.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Unique identifier in system.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'guid' => array(
+        'description' => 'Unique identifier from feed.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'title' => array(
+        'description' => 'The title.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'message' => array(
+        'description' => 'The message.',
+        'type' => 'text',
+        'not null' => TRUE,
+        'default' => '',
+        'size' => 'big',        
+      ),
+      'timestamp' => array(
+        'description' => 'When the item was created',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'isread' => array(
+        'description' => 'Is it read or not?',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function ash_news_feed_install() {
+  drupal_install_schema('ash_news_feed');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function ash_news_feed_uninstall() {
+  drupal_uninstall_schema('ash_news_feed');
+}
