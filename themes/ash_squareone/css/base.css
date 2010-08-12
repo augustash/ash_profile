@@ -1,0 +1,10 @@
+/* Copyright (c) 2007 August Ash Inc. (http://www.augustash.com)
+   Base Style Sheet
+   Version: $Id$
+----------------------------------------------- */
+
+/* Imported Styles
+----------------------------------------------- */
+@import url("yui/reset.css"); /* Used from - http://developer.yahoo.com/yui/reset/ */
+@import url("drupal.css");
+@import url("screen.css");
