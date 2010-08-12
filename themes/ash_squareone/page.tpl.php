@@ -86,19 +86,19 @@
   <?php print $styles; ?>
   <?php print $scripts; ?>
 </head>
+
 <body class="<?php print $body_classes; ?>">
+	
   <!-- DO NOT REMOVE, prints little admin link in top left corner -->
-  <?php if (!empty($admin)) print $admin; ?> 
+  <?php if (!empty($admin)) print $admin; ?>
+ 
   <?php if ($primary_links || $secondary_links || $navbar): ?>
 		<p class="access"><a href="#main" title="Skip to content">Skip to content</a></p>
   <?php endif; ?>
     
-<div id="wrap">
+	<div id="wrap">
     <div id="header">
-               <h2><a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home">
-                <?php print $site_name; ?>
-                </a>
-              </h2>
+    	<h2><a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><?php print $site_name; ?></a></h2>
 
       <?php if ($header): ?>
         <div id="header-blocks" class="region region-header"><!--primary-links-->
@@ -107,8 +107,9 @@
       <?php endif; ?>
     </div> <!--/#header -->
   
-	<div id="cwrap">
-       <div id="main">
+		<div id="cwrap">
+    	<div id="main">
+	
        <?php if ($breadcrumb ||$tabs || $help || $messages): ?>
           <div id="content-header">
             <?php print $messages; ?>
@@ -116,37 +117,38 @@
               <div class="tabs"><?php print $tabs; ?></div>
             <?php endif; ?>
             <?php print $help; ?>
-                 </div> <!-- /#content-header -->
+          </div> <!-- /#content-header -->
         <?php endif; ?> 
 
             
-  		<div id="content-area">
-		<?php if ($content_top): ?>
-          <div id="content-top" class="region region-content_top">
-            <?php print $content_top; ?>
-          </div> <!-- /#content-top -->  
+  			<div id="content-area">
+	
+					<?php if ($content_top): ?>
+          	<div id="content-top" class="region region-content_top">
+            	<?php print $content_top; ?>
+          	</div> <!-- /#content-top -->  
+					<?php endif; ?>
 
-        <?php endif; ?>
-
-            <?php if ($title): ?>
-            <h1 class="title"><?php print $title; ?></h1>
-            <?php endif; ?> 
+          <?php if ($title): ?>
+          	<h1 class="title"><?php print $title; ?></h1>
+          <?php endif; ?>
+ 
 	        <?php print $content; ?> 
 
+        	<?php if ($feed_icons): ?>
+          	<div class="feed-icons"><?php print $feed_icons; ?></div>
+        	<?php endif; ?>
 
-        <?php if ($feed_icons): ?>
-          <div class="feed-icons"><?php print $feed_icons; ?></div>
-        <?php endif; ?>
+        	<?php if ($content_bottom): ?>
+          	<div id="content-bottom" class="region region-content_bottom">
+            	<?php print $content_bottom; ?>
+          	</div> <!-- /#content-bottom -->
+        	<?php endif; ?>
 
-        <?php if ($content_bottom): ?>
-          <div id="content-bottom" class="region region-content_bottom">
-            <?php print $content_bottom; ?>
-          </div> <!-- /#content-bottom -->
-        <?php endif; ?>
         </div><!--/content-area-->
+    		<div class="clearer"></div>
 
-    <div class="clearer"></div>
-  </div> <!--/#main -->
+  		</div> <!--/#main -->
 
       <?php if ($left): ?>
         <div id="sidebar-left">
@@ -159,16 +161,23 @@
           <?php print $right; ?>
         </div> <!-- /#sidebar-right -->
       <?php endif; ?>
-       <div class="clearer"></div>
+      <div class="clearer"></div>
 
-	</div> <!-- /#cwrap -->
-      <div id="footer">
-        <?php print $footer; ?>
-      </div> <!--/#footer -->
+		</div> <!-- /#cwrap -->
+		
+    <div id="footer">
+    	<?php print $footer; ?>
+    </div> <!--/#footer -->
+
   </div><!-- /wrap -->
-  <?php if ($closure_region): ?>
-    <div id="closure-blocks" class="region region-closure"><?php print $closure_region; ?></div>
+  
+	<?php if ($closure_region): ?>
+  	<div id="closure-blocks" class="region region-closure">
+			<?php print $closure_region; ?>
+		</div>
   <?php endif; ?>
+
   <?php print $closure; ?>
+
 </body>
 </html>

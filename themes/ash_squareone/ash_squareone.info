@@ -46,10 +46,6 @@ scripts[]   = js/ashlib.js
   ; "[content_top]" in the .info file means there should be a $content_top
   ; variable in the page.tpl.php file.) The text after the equals sign is a
   ; descriptive text used on the admin/build/blocks page.
-  ;
-  ; To add a new region, copy Zen's page.tpl.php to your sub-theme's directory,
-  ; add a line line to this file, and then add the new variable to your
-  ; page.tpl.php template.
 regions[left]           = left sidebar
 regions[right]          = right sidebar
 regions[navbar]         = navigation bar
