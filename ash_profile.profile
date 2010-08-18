@@ -20,7 +20,7 @@ function ash_profile_profile_modules() {
   
   // Then, enable any contributed modules here.
   $contrib = array(
-    'admin', 'devel', 'ctools', 'content', 'views', 'views_ui', 'fieldgroup', 'filefield', 'imagefield', 'number', 'optionwidgets', 'text', 'date_api', 'date', 'date_timezone', 'imageapi', 'imageapi_gd', 'imagecache', 'imagecache_ui', 'jquery_update', 'token', 'pathauto', 'advanced_help', 'wysiwyg', 'better_formats', 'vertical_tabs', 'features', 'smtp', 'page_title', 'nodewords', 'strongarm',
+    'admin', 'devel', 'ctools', 'context', 'content', 'views', 'views_ui', 'fieldgroup', 'filefield', 'imagefield', 'number', 'optionwidgets', 'text', 'date_api', 'date', 'date_timezone', 'imageapi', 'imageapi_gd', 'imagecache', 'imagecache_ui', 'jquery_update', 'token', 'pathauto', 'advanced_help', 'wysiwyg', 'better_formats', 'vertical_tabs', 'features', 'smtp', 'page_title', 'nodewords', 'strongarm', 'jquery_ui',
   );
   
   return array_merge($core_req, $core_opt, $contrib);
