@@ -10,17 +10,60 @@ function ash_profile_profile_modules() {
 
   // Enable required core modules first.
   $core_req = array(
-    'block', 'filter', 'node', 'system', 'user'
+    'block',
+		'filter',
+		'node',
+		'system',
+		'user'
   );
   
   // Enable optional core modules next.
   $core_opt = array(
-    'comment', 'help', 'menu', 'taxonomy', 'path', 'search', 'php'
+    'comment',
+		'help',
+		'menu',
+		'taxonomy',
+		'path',
+		'php'
   );
   
   // Then, enable any contributed modules here.
   $contrib = array(
-    'admin', 'devel', 'ctools', 'context', 'content', 'views', 'views_ui', 'fieldgroup', 'filefield', 'imagefield', 'number', 'optionwidgets', 'text', 'date_api', 'date', 'date_timezone', 'imageapi', 'imageapi_gd', 'imagecache', 'imagecache_ui', 'jquery_update', 'token', 'pathauto', 'advanced_help', 'wysiwyg', 'better_formats', 'vertical_tabs', 'features', 'smtp', 'page_title', 'nodewords', 'strongarm', 'jquery_ui',
+    'admin',
+		'devel', 
+		'ctools',
+		'context',
+		'context_ui',
+		'context_contrib',
+		'content',
+		'views',
+		'views_ui',
+		'fieldgroup',
+		'filefield',
+		'imagefield',
+		'number',
+		'optionwidgets',
+		'text',
+		'date_api',
+		'date',
+		'date_timezone',
+		'imageapi',
+		'imageapi_gd',
+		'imagecache',
+		'imagecache_ui',
+		'jquery_update',
+		'token',
+		'pathauto',
+		'advanced_help',
+		'wysiwyg',
+		'better_formats',
+		'vertical_tabs',
+		'features',
+		'smtp',
+		'page_title',
+		'nodewords',
+		'strongarm',
+		'jquery_ui',
   );
   
   return array_merge($core_req, $core_opt, $contrib);
