@@ -34,7 +34,6 @@ function ash_profile_profile_modules() {
 		'ctools',
 		'context',
 		'context_ui',
-		'context_contrib',
 		'content',
 		'views',
 		'views_ui',
@@ -193,7 +192,7 @@ function ash_profile_profile_tasks(&$task, $url) {
   db_query("UPDATE {system} SET status=%d WHERE name = '%s'", 1, 'ash_squareone');
   db_query("UPDATE {system} SET status=%d WHERE name = '%s'", 1, 'tao');
   db_query("UPDATE {system} SET status=%d WHERE name = '%s'", 1, 'rubik');
-  variable_set('theme_default', 'ash_squareone');
+  variable_set('theme_default', 'squareone');
   variable_set('admin_theme', 'rubik');
   variable_set('node_admin_theme', 1);
   
