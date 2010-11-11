@@ -189,7 +189,7 @@ function ash_profile_profile_tasks(&$task, $url) {
   
   //Enable and make default AA Zen starter theme.
   //Also enable Tao and Rubik, make Rubik the admin theme, and have it apply to edit forms.
-  db_query("UPDATE {system} SET status=%d WHERE name = '%s'", 1, 'ash_squareone');
+  db_query("UPDATE {system} SET status=%d WHERE name = '%s'", 1, 'squareone');
   db_query("UPDATE {system} SET status=%d WHERE name = '%s'", 1, 'tao');
   db_query("UPDATE {system} SET status=%d WHERE name = '%s'", 1, 'rubik');
   variable_set('theme_default', 'squareone');
