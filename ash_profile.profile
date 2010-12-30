@@ -32,6 +32,7 @@ function ash_profile_profile_modules() {
     'admin',
 		'devel', 
 		'ctools',
+    'boxes',
 		'context',
 		'context_ui',
 		'content',
