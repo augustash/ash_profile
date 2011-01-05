@@ -1,0 +1,48 @@
+name = August Ash
+description = This installs and enables all of the modules for the August Ash base Drupal install. It will make your life easier.
+version = VERSION
+core = 7.x
+
+; Core modules
+dependencies[] = block
+dependencies[] = contextual
+dependencies[] = dashboard
+dependencies[] = dblog
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = overlay
+dependencies[] = path
+dependencies[] = rdf
+dependencies[] = shortcut
+dependencies[] = taxonomy
+dependencies[] = simpletest
+dependencies[] = toolbar
+dependencies[] = update
+
+; Contrib modules
+dependencies[] = advanced_help
+dependencies[] = boxes
+dependencies[] = context
+dependencies[] = context_ui
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = devel
+dependencies[] = features
+dependencies[] = page_title
+dependencies[] = pathauto
+dependencies[] = smtp
+dependencies[] = strongarm
+dependencies[] = token
+dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = wysiwyg
+
+
+files[] = ash_profile.profile
