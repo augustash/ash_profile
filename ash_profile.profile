@@ -10,26 +10,41 @@ function ash_profile_profile_modules() {
 
   // Enable required core modules first.
   $core_req = array(
-    'block',
+    'field',
+    'field_sql_storage',
 		'filter',
 		'node',
 		'system',
-		'user'
+    'text',
+		'user',
   );
   
   // Enable optional core modules next.
   $core_opt = array(
-    'comment',
+    'block',
+    'contextual',
+    'dashboard',
+    'dblog',
+    'field_ui',
+    'file',
 		'help',
+    'image',
+    'list',
 		'menu',
+    'number',
+    'options',
+    'overlay',
+    'path',
+    'rdf',
+    'shortcut',
 		'taxonomy',
-		'path',
-		'php'
+    'testing',
+		'toolbar',
+    'update',
   );
   
   // Then, enable any contributed modules here.
   $contrib = array(
-    'admin',
 		'devel', 
 		'ctools',
     'boxes',
@@ -38,32 +53,18 @@ function ash_profile_profile_modules() {
 		'content',
 		'views',
 		'views_ui',
-		'fieldgroup',
-		'filefield',
-		'imagefield',
-		'number',
-		'optionwidgets',
-		'text',
 		'date_api',
 		'date',
 		'date_timezone',
-		'imageapi',
-		'imageapi_gd',
-		'imagecache',
-		'imagecache_ui',
-		'jquery_update',
 		'token',
 		'pathauto',
 		'advanced_help',
 		'wysiwyg',
-		'better_formats',
-		'vertical_tabs',
 		'features',
 		'smtp',
 		'page_title',
-		'nodewords',
+		'metatags',
 		'strongarm',
-		'jquery_ui',
   );
   
   return array_merge($core_req, $core_opt, $contrib);
@@ -169,9 +170,8 @@ function ash_profile_profile_tasks(&$task, $url) {
     node_type_save($type);
   }
 
-  // Default page to not be promoted and have comments disabled.
+  // Default page to not be promoted.
   variable_set('node_options_page', array('status'));
-  variable_set('comment_page', COMMENT_NODE_DISABLED);
 
   // Don't display date and author information for page nodes by default.
   $theme_settings = variable_get('theme_settings', array());
@@ -203,18 +203,6 @@ function ash_profile_profile_tasks(&$task, $url) {
   } 
   db_query("UPDATE {wysiwyg} SET editor = 'tinymce' WHERE format = 1 OR format = 2");
   
-  //Add better default settings for the Better Formats module.
-  db_query('UPDATE `better_formats_defaults` SET `format` = %d, `type_weight` = %d, `weight` = %d WHERE `rid` = %d AND `type` = \'%s\'', 1, 1 -24, 1, 'node');
-  db_query('UPDATE `better_formats_defaults` SET `format` = %d, `type_weight` = %d, `weight` = %d WHERE `rid` = %d AND `type` = \'%s\'', 0, 1, 0, 1, 'comment');
-  db_query('UPDATE `better_formats_defaults` SET `format` = %d, `type_weight` = %d, `weight` = %d WHERE `rid` = %d AND `type` = \'%s\'', 0, 1, 25, 1, 'block');
-  db_query('UPDATE `better_formats_defaults` SET `format` = %d, `type_weight` = %d, `weight` = %d WHERE `rid` = %d AND `type` = \'%s\'', 1, 1, -23, 2, 'node');
-  db_query('UPDATE `better_formats_defaults` SET `format` = %d, `type_weight` = %d, `weight` = %d WHERE `rid` = %d AND `type` = \'%s\'', 0, 1, 0, 2, 'comment');
-  db_query('UPDATE `better_formats_defaults` SET `format` = %d, `type_weight` = %d, `weight` = %d WHERE `rid` = %d AND `type` = \'%s\'', 0, 1, 25, 2, 'block');
-  db_query("INSERT INTO `better_formats_defaults` (`rid`, `type`, `format`, `type_weight`, `weight`) VALUES 
-    (3, 'node', 2, 1, -25),
-    (3, 'comment', 0, 1, 0),
-    (3, 'block', 2, 1, 25);");
-	
   //Set Page's URL to be the Menu Path
   variable_set('pathauto_node_page_pattern', '[menupath-raw]');
 
