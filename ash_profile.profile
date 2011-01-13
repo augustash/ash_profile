@@ -64,6 +64,7 @@ function ash_profile_profile_modules() {
 		'nodewords',
 		'strongarm',
 		'jquery_ui',
+    'site_map'
   );
   
   return array_merge($core_req, $core_opt, $contrib);
