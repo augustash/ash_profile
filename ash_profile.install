@@ -12,7 +12,7 @@ function ash_profile_install(&$task, $url) {
     array(
       'type' => 'page',
       'name' => st('Page'),
-      'module' => 'node',
+      'base' => 'node_content',
       'description' => st("This is for regular content entries, like an <em>About Us</em> page for example. By default, a <em>page</em> entry does not allow visitor comments and is not featured on the site's initial home page."),
       'custom' => TRUE,
       'modified' => TRUE,
@@ -23,8 +23,9 @@ function ash_profile_install(&$task, $url) {
   );
 
   foreach ($types as $type) {
-    $type = (object) _node_type_set_defaults($type);
+    $type = node_type_set_defaults($type);
     node_type_save($type);
+    node_add_body_field($type);
   }
 
   // Default page to not be promoted.
