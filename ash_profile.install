@@ -62,7 +62,7 @@ function ash_profile_install(&$task, $url) {
   db_query("UPDATE {wysiwyg} SET editor = 'tinymce' WHERE format = 1 OR format = 2");
   
   //Set Page's URL to be the Menu Path
-  variable_set('pathauto_node_page_pattern', '[menupath-raw]');
+  variable_set('pathauto_node_page_pattern', '[node:menu-link:parent:url:path]/[node:title]');
 
 	// Setting smtp module backup server to VISI.
 	variable_set('smtp_hostbackup', 'smtp.visi.com');
