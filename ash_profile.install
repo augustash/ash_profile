@@ -147,10 +147,21 @@ function ash_profile_install(&$task, $url) {
   //Enable and make default Framework starter theme.
   variable_set('theme_default', 'framework');
   
-  db_query("INSERT INTO {wysiwyg} (`format`, `editor`, `settings`) VALUES
-('filtered_html', 'tinymce', 'a:20:{s:7:\"default\";i:1;s:11:\"user_choose\";i:0;s:11:\"show_toggle\";i:1;s:5:\"theme\";s:8:\"advanced\";s:8:\"language\";s:2:\"en\";s:7:\"buttons\";a:2:{s:7:\"default\";a:8:{s:4:\"bold\";i:1;s:6:\"italic\";i:1;s:7:\"bullist\";i:1;s:7:\"numlist\";i:1;s:7:\"outdent\";i:1;s:6:\"indent\";i:1;s:4:\"link\";i:1;s:6:\"unlink\";i:1;}s:5:\"paste\";a:1:{s:9:\"pasteword\";i:1;}}s:11:\"toolbar_loc\";s:3:\"top\";s:13:\"toolbar_align\";s:4:\"left\";s:8:\"path_loc\";s:6:\"bottom\";s:8:\"resizing\";i:1;s:11:\"verify_html\";i:1;s:12:\"preformatted\";i:0;s:22:\"convert_fonts_to_spans\";i:1;s:17:\"remove_linebreaks\";i:1;s:23:\"apply_source_formatting\";i:0;s:27:\"paste_auto_cleanup_on_paste\";i:0;s:13:\"block_formats\";s:32:\"p,address,pre,h2,h3,h4,h5,h6,div\";s:11:\"css_setting\";s:5:\"theme\";s:8:\"css_path\";s:0:\"\";s:11:\"css_classes\";s:0:\"\";}'),
-('full_html', 'tinymce', 'a:20:{s:7:\"default\";i:1;s:11:\"user_choose\";i:0;s:11:\"show_toggle\";i:1;s:5:\"theme\";s:8:\"advanced\";s:8:\"language\";s:2:\"en\";s:7:\"buttons\";a:2:{s:7:\"default\";a:8:{s:4:\"bold\";i:1;s:6:\"italic\";i:1;s:7:\"bullist\";i:1;s:7:\"numlist\";i:1;s:7:\"outdent\";i:1;s:6:\"indent\";i:1;s:4:\"link\";i:1;s:6:\"unlink\";i:1;}s:5:\"paste\";a:1:{s:9:\"pasteword\";i:1;}}s:11:\"toolbar_loc\";s:3:\"top\";s:13:\"toolbar_align\";s:4:\"left\";s:8:\"path_loc\";s:6:\"bottom\";s:8:\"resizing\";i:1;s:11:\"verify_html\";i:1;s:12:\"preformatted\";i:0;s:22:\"convert_fonts_to_spans\";i:1;s:17:\"remove_linebreaks\";i:1;s:23:\"apply_source_formatting\";i:0;s:27:\"paste_auto_cleanup_on_paste\";i:0;s:13:\"block_formats\";s:32:\"p,address,pre,h2,h3,h4,h5,h6,div\";s:11:\"css_setting\";s:5:\"theme\";s:8:\"css_path\";s:0:\"\";s:11:\"css_classes\";s:0:\"\";}'),
-('plain_text', '', NULL)");
+  db_insert('wysiwyg')
+    ->fields(array('format', 'editor', 'settings'))
+    ->values(array(
+      'format' => 'filtered_html',
+      'editor' => 'tinymce',
+      'settings' => 'a:20:{s:7:"default";i:1;s:11:"user_choose";i:0;s:11:"show_toggle";i:1;s:5:"theme";s:8:"advanced";s:8:"language";s:2:"en";s:7:"buttons";a:1:{s:7:"default";a:8:{s:4:"bold";i:1;s:6:"italic";i:1;s:7:"bullist";i:1;s:7:"numlist";i:1;s:7:"outdent";i:1;s:6:"indent";i:1;s:4:"link";i:1;s:6:"unlink";i:1;}}s:11:"toolbar_loc";s:3:"top";s:13:"toolbar_align";s:4:"left";s:8:"path_loc";s:6:"bottom";s:8:"resizing";i:1;s:11:"verify_html";i:1;s:12:"preformatted";i:0;s:22:"convert_fonts_to_spans";i:1;s:17:"remove_linebreaks";i:1;s:23:"apply_source_formatting";i:0;s:27:"paste_auto_cleanup_on_paste";i:0;s:13:"block_formats";s:32:"p,address,pre,h2,h3,h4,h5,h6,div";s:11:"css_setting";s:5:"theme";s:8:"css_path";s:0:"";s:11:"css_classes";s:0:"";}'
+    ))->values(array(
+      'format' => 'full_html',
+      'editor' => 'tinymce',
+      'settings' => 'a:20:{s:7:"default";i:1;s:11:"user_choose";i:0;s:11:"show_toggle";i:1;s:5:"theme";s:8:"advanced";s:8:"language";s:2:"en";s:7:"buttons";a:1:{s:7:"default";a:9:{s:4:"bold";i:1;s:6:"italic";i:1;s:7:"bullist";i:1;s:7:"numlist";i:1;s:7:"outdent";i:1;s:6:"indent";i:1;s:4:"link";i:1;s:6:"unlink";i:1;s:5:"image";i:1;}}s:11:"toolbar_loc";s:3:"top";s:13:"toolbar_align";s:4:"left";s:8:"path_loc";s:6:"bottom";s:8:"resizing";i:1;s:11:"verify_html";i:1;s:12:"preformatted";i:0;s:22:"convert_fonts_to_spans";i:1;s:17:"remove_linebreaks";i:1;s:23:"apply_source_formatting";i:0;s:27:"paste_auto_cleanup_on_paste";i:0;s:13:"block_formats";s:32:"p,address,pre,h2,h3,h4,h5,h6,div";s:11:"css_setting";s:5:"theme";s:8:"css_path";s:0:"";s:11:"css_classes";s:0:"";}'
+    ))->values(array(
+      'format' => 'plain_text',
+      'editor' => '',
+      'settings' => NULL
+    ))->execute();
   
   // Setting smtp module backup server to VISI.
   variable_set('smtp_hostbackup', 'smtp.visi.com');
