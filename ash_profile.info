@@ -21,7 +21,6 @@ dependencies[] = path
 dependencies[] = rdf
 dependencies[] = shortcut
 dependencies[] = taxonomy
-dependencies[] = simpletest
 dependencies[] = toolbar
 dependencies[] = update
 
