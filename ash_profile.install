@@ -145,6 +145,11 @@ function ash_profile_install(&$task, $url) {
   variable_set('pathauto_node_page_pattern', '[node:menu-link:parent:url:path]/[node:title]');
 
   //Enable and make default Framework starter theme.
+  db_update('system')
+    ->fields(array('status' => 1))
+    ->condition('type', 'theme')
+    ->condition('name', 'framework')
+    ->execute();
   variable_set('theme_default', 'framework');
   
   db_insert('wysiwyg')
