@@ -54,6 +54,7 @@ dependencies[] = entity
 dependencies[] = auto_entitylabel
 dependencies[] = eck
 dependencies[] = file_entity
+dependencies[] = entityreference
 dependencies[] = addressfield
 dependencies[] = link
 dependencies[] = default_menu_link
