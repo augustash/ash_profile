@@ -20,10 +20,10 @@ function ash_profile_install(&$task, $url) {
         'weight' => 1,
         'status' => 1,
         'settings' => array(
-          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <br> <p> <h3> <h4> <h5>', 
-          'filter_html_help' => 1, 
+          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <br> <p> <h3> <h4> <h5>',
+          'filter_html_help' => 1,
           'filter_html_nofollow' => 0,
-        ), 
+        ),
       ),
       // Line break filter.
       'filter_autop' => array(
@@ -64,7 +64,7 @@ function ash_profile_install(&$task, $url) {
   );
   $full_html_format = (object) $full_html_format;
   filter_format_save($full_html_format);
-  
+
   // Insert default user-defined node types into the database. For a complete
   // list of available node type attributes, refer to the node type API
   // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
@@ -145,18 +145,18 @@ function ash_profile_install(&$task, $url) {
     ->execute();
   variable_set('admin_theme', 'seven');
   variable_set('node_admin_theme', '1');
-  
+
   // Set Page's URL to be the Menu Path
   variable_set('pathauto_node_page_pattern', '[node:menu-link:parent:url:path]/[node:title]');
 
-  //Enable and make default Framework starter theme.
+  //Enable the Wraith theme.
   db_update('system')
     ->fields(array('status' => 1))
     ->condition('type', 'theme')
-    ->condition('name', 'framework')
+    ->condition('name', 'wraith')
     ->execute();
   variable_set('theme_default', 'framework');
-  
+
   db_insert('wysiwyg')
     ->fields(array('format', 'editor', 'settings'))
     ->values(array(
@@ -172,7 +172,7 @@ function ash_profile_install(&$task, $url) {
       'editor' => '',
       'settings' => NULL
     ))->execute();
-  
+
   // Setting smtp module backup server to VISI.
   variable_set('smtp_hostbackup', 'smtp.visi.com');
 
