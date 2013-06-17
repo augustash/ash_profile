@@ -4,66 +4,9 @@
  * Implementation of hook_install().
  */
 function ash_profile_install(&$task, $url) {
-  // Add text formats.
-  $filtered_html_format = array(
-    'format' => 'filtered_html',
-    'name' => 'Filtered HTML',
-    'weight' => 0,
-    'filters' => array(
-      // URL filter.
-      'filter_url' => array(
-        'weight' => 0,
-        'status' => 1,
-      ),
-      // HTML filter.
-      'filter_html' => array(
-        'weight' => 1,
-        'status' => 1,
-        'settings' => array(
-          'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <br> <p> <h3> <h4> <h5>',
-          'filter_html_help' => 1,
-          'filter_html_nofollow' => 0,
-        ),
-      ),
-      // Line break filter.
-      'filter_autop' => array(
-        'weight' => 2,
-        'status' => 0,
-      ),
-      // HTML corrector filter.
-      'filter_htmlcorrector' => array(
-        'weight' => 10,
-        'status' => 1,
-      ),
-    ),
-  );
-  $filtered_html_format = (object) $filtered_html_format;
-  filter_format_save($filtered_html_format);
 
-  $full_html_format = array(
-    'format' => 'full_html',
-    'name' => 'Full HTML',
-    'weight' => 1,
-    'filters' => array(
-      // URL filter.
-      'filter_url' => array(
-        'weight' => 0,
-        'status' => 1,
-      ),
-      // Line break filter.
-      'filter_autop' => array(
-        'weight' => 1,
-        'status' => 0,
-      ),
-      // HTML corrector filter.
-      'filter_htmlcorrector' => array(
-        'weight' => 10,
-        'status' => 1,
-      ),
-    ),
-  );
-  $full_html_format = (object) $full_html_format;
-  filter_format_save($full_html_format);
+  $php_bin    = exec('which php');
+  $drush_bin  = exec('which drush');
 
   // Insert default user-defined node types into the database. For a complete
   // list of available node type attributes, refer to the node type API
@@ -149,29 +92,24 @@ function ash_profile_install(&$task, $url) {
   // Set Page's URL to be the Menu Path
   variable_set('pathauto_node_page_pattern', '[node:menu-link:parent:url:path]/[node:title]');
 
-  //Enable the Wraith theme.
+  // Enable the Wraith theme.
   db_update('system')
     ->fields(array('status' => 1))
     ->condition('type', 'theme')
     ->condition('name', 'wraith')
     ->execute();
-  variable_set('theme_default', 'framework');
 
-  db_insert('wysiwyg')
-    ->fields(array('format', 'editor', 'settings'))
-    ->values(array(
-      'format' => 'filtered_html',
-      'editor' => 'tinymce',
-      'settings' => 'a:20:{s:7:"default";i:1;s:11:"user_choose";i:0;s:11:"show_toggle";i:1;s:5:"theme";s:8:"advanced";s:8:"language";s:2:"en";s:7:"buttons";a:1:{s:7:"default";a:8:{s:4:"bold";i:1;s:6:"italic";i:1;s:7:"bullist";i:1;s:7:"numlist";i:1;s:7:"outdent";i:1;s:6:"indent";i:1;s:4:"link";i:1;s:6:"unlink";i:1;}}s:11:"toolbar_loc";s:3:"top";s:13:"toolbar_align";s:4:"left";s:8:"path_loc";s:6:"bottom";s:8:"resizing";i:1;s:11:"verify_html";i:1;s:12:"preformatted";i:0;s:22:"convert_fonts_to_spans";i:1;s:17:"remove_linebreaks";i:1;s:23:"apply_source_formatting";i:0;s:27:"paste_auto_cleanup_on_paste";i:0;s:13:"block_formats";s:32:"p,address,pre,h2,h3,h4,h5,h6,div";s:11:"css_setting";s:5:"theme";s:8:"css_path";s:0:"";s:11:"css_classes";s:0:"";}'
-    ))->values(array(
-      'format' => 'full_html',
-      'editor' => 'tinymce',
-      'settings' => 'a:20:{s:7:"default";i:1;s:11:"user_choose";i:0;s:11:"show_toggle";i:1;s:5:"theme";s:8:"advanced";s:8:"language";s:2:"en";s:7:"buttons";a:1:{s:7:"default";a:9:{s:4:"bold";i:1;s:6:"italic";i:1;s:7:"bullist";i:1;s:7:"numlist";i:1;s:7:"outdent";i:1;s:6:"indent";i:1;s:4:"link";i:1;s:6:"unlink";i:1;s:5:"image";i:1;}}s:11:"toolbar_loc";s:3:"top";s:13:"toolbar_align";s:4:"left";s:8:"path_loc";s:6:"bottom";s:8:"resizing";i:1;s:11:"verify_html";i:1;s:12:"preformatted";i:0;s:22:"convert_fonts_to_spans";i:1;s:17:"remove_linebreaks";i:1;s:23:"apply_source_formatting";i:0;s:27:"paste_auto_cleanup_on_paste";i:0;s:13:"block_formats";s:32:"p,address,pre,h2,h3,h4,h5,h6,div";s:11:"css_setting";s:5:"theme";s:8:"css_path";s:0:"";s:11:"css_classes";s:0:"";}'
-    ))->values(array(
-      'format' => 'plain_text',
-      'editor' => '',
-      'settings' => NULL
-    ))->execute();
+  $servername = $_SERVER['SERVER_NAME'];
+  $pattern    = "/^(\w+).(?:dev|local.*|com|org|net|[a-z\.-]*)$/";
+
+  preg_match($pattern, $servername, $matches);
+
+  $theme_name = (isset($matches[1]) && !empty($matches[1])) ? $matches[1] : 'aai';
+
+  // Generate the project's theme as a sub-theme to the Wraith theme.
+  exec("{$drush_bin} wraith '{$theme_name}'");
+  // Enable the project's theme
+  variable_set('theme_default', "{$theme_name}");
 
   // Setting smtp module backup server to VISI.
   variable_set('smtp_hostbackup', 'smtp.visi.com');
