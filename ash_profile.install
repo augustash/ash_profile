@@ -172,6 +172,16 @@ function ash_profile_install(&$task, $url) {
       'editor' => '',
       'settings' => NULL
     ))->execute();
+
+  // Add AAI's Google Analytics site verification code.
+  db_insert('site_verify')
+    ->fields(array('engine', 'file', 'file_contents', 'meta'))
+    ->values(array(
+      'engine' => 'google',
+      'file' => 'google1158f6656dc8099f.html',
+      'file_contents' => 'google-site-verification: google1158f6656dc8099f.html',
+      'meta' => ''
+    ))->execute();
   
   // Setting smtp module backup server to VISI.
   variable_set('smtp_hostbackup', 'smtp.visi.com');

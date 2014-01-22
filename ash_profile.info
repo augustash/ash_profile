@@ -33,7 +33,6 @@ dependencies[] = ctools
 dependencies[] = date
 dependencies[] = date_api
 dependencies[] = devel
-dependencies[] = features
 dependencies[] = page_title
 dependencies[] = pathauto
 dependencies[] = smtp
@@ -42,6 +41,8 @@ dependencies[] = token
 dependencies[] = views
 dependencies[] = views_ui
 dependencies[] = wysiwyg
+dependencies[] = site_verify
+dependencies[] = features
 
 
 files[] = ash_profile.profile
